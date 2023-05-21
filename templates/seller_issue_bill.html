@@ -1,0 +1,96 @@
+{% extends 'seller_header.html' %}
+{% block head %}
+<style>
+  .image img{
+    width: 100px;
+    height :80px;
+  }
+  i{
+    font-size: 2rem;
+  }
+  .btn1{
+    color: #FF0032;
+  }
+  .btn1:hover{
+    color:#CD0404;
+  }
+  i:hover{
+    font-size:3rem;
+  }
+.profile i{
+		font-size:2.5rem;
+		color:white;
+
+	}
+	.profile p{
+		font-size:2rem;
+		position:relative;
+		bottom:22px;
+	}
+</style>
+{% endblock %}
+{% block body %}
+<div id="main">
+
+		<div class="head">
+			<div class="col-div-6">
+				<span style="font-size:30px;cursor:pointer; color: white;" class="nav"  >☰ Issue Bill</span>
+				<span style="font-size:30px;cursor:pointer; color: white;" class="nav2"  >☰ Issue Bill</span>
+			</div>
+
+			<div class="col-div-6">
+				<div class="profile">
+
+<!--					<img src="images/user.png" class="pro-img" />-->
+					<i class="fa-solid fa-user pro-img"></i>
+					<p>{{seller.name}} <span>{{seller.email}}</span></p>
+				</div>
+			</div>
+				<div class="clearfix"></div>
+		</div>
+
+      <div class="container mt-3">
+        <h1>Issuing Bills</h1>
+        <hr>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Buyer Name</th>
+            <th>Buyer email</th>
+            <th>Buyer Place</th>
+            <th> Phone Number</th>
+            <th>Total orders</th>
+            <th>Issue Bill</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for user,fish_count  in data: %}
+          <tr>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.Address}} </td>
+            <td>{{user.phone}} </td>
+            <td>{{fish_count}} </td>
+            <td>
+                <form method="post" action="/seller/billing/issue_billing/generate">
+                    <input type="hidden" value="{{user.id}}" name="user_id">
+                    <button class="btn btn-danger ">generate Bill</button>
+                </form>
+
+            </td>
+
+          </tr>
+
+        {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+

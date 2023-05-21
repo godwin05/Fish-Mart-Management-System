@@ -1,0 +1,60 @@
+{% extends 'seller_header.html' %}
+{% block head %}
+{% endblock %}
+{% block body %}
+<div id="main">
+<!--		default-->
+		<div class="head">
+			<div class="col-div-6">
+				<span style="font-size:30px;cursor:pointer; color: white;" class="nav"  >☰ Bidding</span>
+				<span style="font-size:30px;cursor:pointer; color: white;" class="nav2"  >☰ Bidding</span>
+			</div>
+
+			<div class="col-div-6">
+				<div class="profile">
+
+<!--					<img src="images/user.png" class="pro-img" />-->
+				<i class="fa-solid fa-user pro-img"></i>
+                    <p>{{seller.name}} <span>{{seller.email}}</span></p>
+				</div>
+			</div>
+				<div class="clearfix"></div>
+		</div>
+	 <div class="container mt-3">
+        <h1>View order</h1>
+        <hr>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Fish Name</th>
+            <th>Price</th>
+			<th>Weight</th>
+            <th>Buyer Name</th>
+            <th>Buyer Place</th>
+              <th> Phone Number</th>
+            <th>email</th>
+<!--            <th>Pin code</th>-->
+<!--            <th>Purchase date</th>-->
+          </tr>
+        </thead>
+        <tbody>
+        {% for bid,user  in bidding: %}
+          <tr>
+            <td>{{bid.name}}</td>
+            <td>{{bid.highest_bid}}</td>
+            <td>{{bid.bid}} </td>
+            <td>{{user.name}} </td>
+			<td>{{bid.user_address}}</td>
+            <td>{{bid.user_phone}} </td>
+            <td>{{user.email}}</td>
+
+          </tr>
+
+        {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+</div>
+{% endblock %}

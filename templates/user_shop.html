@@ -1,0 +1,179 @@
+{% extends 'main_header.html' %}
+{% block head %}
+<style>
+@media (min-width: 1025px) {
+    .h-custom {
+    height: 100vh !important;
+    }
+}
+.price{
+  font-size:15px;
+}
+.remove{
+  text-decoration:none;
+  border:none;
+}
+    </style>
+{% endblock %}
+{% block body %}
+<section class="h-100 h-custom" style="background-color: #eee;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col">
+              <div class="card">
+                <div class="card-body p-4">
+
+                  <div class="row">
+
+                    <div class="col-lg-7">
+                      <!-- <h5 class="mb-3"><a href="#!" class="text-body"><i
+                            class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
+                      <hr> -->
+
+                      <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                          <p class="mb-1">Fisheries cart</p>
+                          <p class="mb-0">You have {{items}} items in your cart</p>
+                        </div>
+                        <!-- <div>
+                          <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!"
+                              class="text-body">price <i class="fas fa-angle-down mt-1"></i></a></p>
+                        </div> -->
+                      </div>
+                     {%for data,buy in data:%}
+                     <div class="card mb-3">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between">
+                            <div class="d-flex flex-row align-items-center">
+                              <div>
+                                {% set a = data.image %}
+                                {% set b= encode(a) %}
+                                {% set img = b.decode('UTF-8') %}
+                                <img
+                                  src="data:image/png;charset-utf;base64,{{img}} "
+                                  class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                              </div>
+                              <div class="ms-3">
+                                <h5>{{data.name}}</h5>
+                                <p class="small mb-0"></p>
+                              </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center">
+
+                              <div style="width: 120px;">
+                                {% set var = data.price/100 %}
+                                {% set val = 100-data.offer %}
+                                {% set ans = var*val %}
+                                <h5 class="mb-0">${{ans|round|int}}</h5>
+                                <p class="mb-0 price"><del>${{data.price}}</del> </p>
+
+                              </div>
+<!--                              <div style="width: 90px;">-->
+<!--                                <h5 class="fw-normal mb-0"><button class="btn btn-danger">Remove</button></h5>-->
+<!--                              </div>-->
+                              <form method="post" action="/product_detail/shop/remove">
+                                <input type="hidden" value="{{buy.id}}" name="shop_id">
+                                <Button style="color: #cecece;" class="remove"><i class="fas fa-trash-alt"></i></Button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                    <div class="col-lg-5">
+
+                      <div class="card bg-primary text-white rounded-3">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="mb-0">User details (Fill the correct details)</h5>
+                            <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
+                              class="img-fluid rounded-3" style="width: 45px;" alt="Avatar"> -->
+                          </div>
+
+                          <!-- <p class="small mb-2">Card type</p>
+                          <a href="#!" type="submit" class="text-white"><i
+                              class="fab fa-cc-mastercard fa-2x me-2"></i></a>
+                          <a href="#!" type="submit" class="text-white"><i
+                              class="fab fa-cc-visa fa-2x me-2"></i></a>
+                          <a href="#!" type="submit" class="text-white"><i
+                              class="fab fa-cc-amex fa-2x me-2"></i></a>
+                          <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-paypal fa-2x"></i></a>
+       -->        <form class="mt-4" method="post" action="/product_detail/shop/ordered">
+<!--                          <form action="charge" method="POST">-->
+
+
+                            <div class="form-outline form-white mb-4">
+                              <input type="text" id="typeName" value="{{user_data.name}}" class="form-control form-control-lg"
+                                placeholder="Name" />
+                              <!-- <label class="form-label" for="typeName">Cardholder's Name</label> -->
+                            </div>
+
+                            <div class="form-outline form-white mb-4">
+                              <input type="text" id="typeText" class="form-control form-control-lg" value="{{user_data.Address}}"
+                                placeholder="Address" name="address"  />
+                              <!-- <label class="form-label" for="typeText">Card Number</label> -->
+                            </div>
+                            <div class="form-outline form-white mb-4">
+                              <input type="number" id="typeTex" class="form-control form-control-lg" value="{{user_data.phone}}"
+                                placeholder="Phone number"  siez="12" minlength="10" maxlength="12" name="phone" />
+                              <!-- <label class="form-label" for="typeText">Card Number</label> -->
+                            </div>
+
+
+
+                          <hr class="my-4">
+
+                          <div class="d-flex justify-content-between">
+                            <p class="mb-2">Subtotal</p>
+                            <p class="mb-2">${{amount}}.00</p>
+                          </div>
+
+                          <div class="d-flex justify-content-between">
+                            <p class="mb-2">Shipping</p>
+                            <p class="mb-2">$20.00</p>
+                          </div>
+
+                          <div class="d-flex justify-content-between mb-4">
+                            <p class="mb-2">Total(Incl. taxes)</p>
+                            {% set total = amount + 20 %}
+                            <p class="mb-2">${{total}}.00</p>
+                          </div>
+                         <Button class="btn btn-info btn-block btn-lg">
+                    <div class="d-flex justify-content-between">
+                      <span></span>
+                      <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                    </div>
+                  </Button>
+          </form>
+                            <form action="charge" method="POST">
+                          <script
+                                      src="https://checkout.razorpay.com/v1/checkout.js"
+                                      data-key="rzp_test_wYONlr9Yl0PVaR"
+                                      data-amount="{{total*100}}"
+                                      data-name="OFMMS"
+                                      data-description="Purchase Description"
+                                      data-image="vk.jpg"
+                                      data-netbanking="true"
+                                      data-description="Fish Mart"
+                                      data-prefill.name="{{user_data.name}}"
+                                      data-prefill.email="{{user_data.email}}"
+                                      data-prefill.contact="6379651238"
+                                      data-notes.shopping_order_id="{{user_data.id}}">
+                                  </script>
+                                  <input type="hidden" name="amount" value="{{total}}">
+                                  <input type="hidden" name="shopping_order_id" value="20">
+
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+<script src="{{url_for('static', filename='js/nav.js') }}"></script>
+{% endblock %}

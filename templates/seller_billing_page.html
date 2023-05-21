@@ -1,0 +1,51 @@
+{% extends 'seller_header.html' %}
+{% block head %}
+<style>
+	.card1,.box{
+		height:150px;
+	}
+</style>
+{% endblock %}
+{% block body %}
+<div id="main">
+<!--		default-->
+		<div class="head">
+			<div class="col-div-6">
+				<span style="font-size:30px;cursor:pointer; color: white;" class="nav"  >☰ Billing</span>
+				<span style="font-size:30px;cursor:pointer; color: white;" class="nav2"  >☰ Billing</span>
+			</div>
+
+			<div class="col-div-6">
+				<div class="profile">
+
+<!--					<img src="images/user.png" class="pro-img" />-->
+				<i class="fa-solid fa-user pro-img"></i>
+                    <p>{{seller.name}} <span>{{seller.email}}</span></p>
+				</div>
+			</div>
+				<div class="clearfix"></div>
+		</div>
+
+
+		<div class="clearfix"></div>
+				<br/>
+
+				<div class="col-div-4 card1">
+					<a href="/seller/billing/issue_billing">
+					<div class="box">
+						<p>{{user}}<br/><span class="mt-3">Generate Bill</span></p>
+						<i class="fa fa-list box-icon"></i>
+					</div>
+					</a>
+				</div>
+				<div class="col-div-4 card1">
+					<a href="/seller/billing/sent">
+					<div class="box">
+				<p>{{issuing}}<br/><span class="py-3">Issue bill</span></p>
+						<i class="fa fa-list box-icon"></i>
+<!--						<i class="fa-solid fa-cloud-arrow-up fa"></i>-->
+					</div>
+					</a>
+				</div>
+</div>
+{% endblock %}

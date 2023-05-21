@@ -1,0 +1,98 @@
+{% extends 'admin_header.html' %}
+{% block head %}
+<style>
+  .image img{
+    width: 100px;
+    height :80px;
+  }
+  i{
+    font-size: 2rem;
+  }
+<!--  .btn{-->
+<!--    color: #FF0032;-->
+<!--  }-->
+<!--  .btn:hover{-->
+<!--    color:#CD0404;-->
+<!--  }-->
+.fa-star{
+  color:#F7D060;
+}
+
+</style>
+{% endblock %}
+{% block body %}
+<div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
+
+  <div class="bg-gray-800 pt-3">
+      <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+          <h3 class="font-bold pl-2">All Feedback</h3>
+      </div>
+  </div>
+
+  <div class="container mt-3">
+
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>User Name</th>
+        <th>Email</th>
+        <th>Seller Data</th>
+        <th>Feedback</th>
+        <th>Rating</th>
+        <th>Date </th>
+        <th>visited</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for user,feedback,seller  in data: %}
+      <tr>
+
+        <td>{{user.name}}</td>
+        <th>{{user.email}}</th>
+        <th>
+          {% if feedback.seller_data == "": %}
+            Nil
+          {% else: %}
+            {{seller.shop}}
+          {% endif %}
+        </th>
+        <th>
+          {% if feedback.feedback == "": %}
+            Nil
+          {% else: %}
+            {{feedback.feedback}}
+          {% endif %}
+        </th>
+        <th>
+          {% if feedback.rating == "": %}
+            Nil
+          {% else: %}
+<!--            {{feedback.rating}} Stars-->
+            {% set a = feedback.rating |int %}
+            {% for y in range(a): %}
+              <i class="fa-solid fa-star "></i>
+            {% endfor %}
+          {% endif %}
+        </th>
+
+        <th>{{feedback.date_joined}}</th>
+        <th>
+          <form method="post" action="/admin/view_feedback/remove">
+            <input type="hidden" value="{{feedback.id}}" name="feedback_id">
+            <button class="btn btn-danger">Visited</button>
+          </form>
+        </th>
+      </tr>
+
+    {% endfor %}
+
+    </tbody>
+  </table>
+
+</div>
+
+</div>
+
+
+{% endblock %}

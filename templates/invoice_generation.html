@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish mart management system</title>
+    <script src="https://kit.fontawesome.com/ab52e3494a.js" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+      .right{
+        margin-left: 85%;
+      }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-body">
+          <div class="container mb-5 mt-3">
+            <div class="row d-flex align-items-baseline">
+
+              <div class="col-xl-3 float-end right">
+                <a class="btn btn-light text-capitalize border-0" id="printpagebutton" data-mdb-ripple-color="dark" onclick ="printpage()"><i
+                    class="far fa-file-pdf text-danger" ></i> Export</a>
+                <!-- <a class="btn btn-light text-capitalize" data-mdb-ripple-color="dark"><i
+                    class="far fa-file-pdf text-danger"></i> Export</a> -->
+              </div>
+
+            </div>
+
+            <div class="container" id="all">
+              <div class="col-md-12">
+                <div class="text-center">
+                  <h2>FISH MART</h2>
+                  <p class="pt-0">INVOICE </p>
+                </div>
+
+              </div>
+              <div class="col-xl-9">
+                <p style="color: #7e8d9f;font-size: 20px;">Invoice >> <strong>ID: #100{{seller.id}}</strong></p>
+              </div>
+
+              <div class="row">
+
+                <div class="col-lg-4">
+                  <p class="text-muted">Issued By</p>
+                  <ul class="list-unstyled">
+
+                    <li class="text-muted"><i class="fa-solid fa-calendar" style="color:#84B0CA ;"></i> <span
+                        class="fw-bold">Creation Date: </span>{{date}}</li>
+                    <li class="text-muted"><i class="fa-solid fa-wallet" style="color:#84B0CA ;"></i> <span
+                      class="me-1 fw-bold">Status:</span><span class="badge bg-warning text-black fw-bold">
+                      paid</span></li>
+                    <li class="text-muted"><i class="fa-solid fa-shop" style="color:#84B0CA ;"></i> <span
+                        class="fw-bold">Shop Name: </span>{{seller.shop}}</li>
+
+                    <li class="text-muted"><i class="fa-solid fa-location-dot" style="color:#84B0CA ;"></i> <span
+                        class="fw-bold">located: </span>{{seller.details}}</li>
+
+                      <li class="text-muted"><i class="fas fa-phone" style="color:#84B0CA ;"></i> <span
+                        class="fw-bold">Phone: </span>{{seller.phone}}</li>
+                    <!-- <li class="text-muted"><i class="fas fa-phone"></i> 123-456-789</li> -->
+                  </ul>
+                </div>
+
+
+                <div class="col-lg-4">
+                  <ul class="list-unstyled">
+                    <li class="text-muted">To: <span style="color:#5d9fc5 ;"> {{user.name}}</span></li>
+                    <li class="text-muted"><i class="fa-solid fa-location-dot"></i> {{user.Address}}</li>
+                    <li class="text-muted"><i class="fa-solid fa-envelope-circle-check"></i> {{user.email}}</li>
+                    <li class="text-muted"><i class="fas fa-phone"></i> {{user.phone}}</li>
+                  </ul>
+                </div>
+
+
+              </div>
+
+              <div class="row my-2 mx-1 justify-content-center">
+                <table class="table table-striped table-borderless">
+                  <thead style="background-color:#84B0CA ;" class="text-white">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Fish</th>
+                      <th scope="col">Actual price</th>
+                      <th scope="col">Instant Offer</th>
+                      <th scope="col">Offer Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for num,fish,price in fishes: %}
+                    <tr>
+                      <th scope="row">{{num}}</th>
+                      <td>{{fish.name}}</td>
+                      <td>${{fish.price}}</td>
+                      <td>{{fish.offer}} %</td>
+                      <td>${{price}}</td>
+                     </tr>
+                  {% endfor %}
+
+                  </tbody>
+
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-xl-8">
+                  <p class="ms-3">Add additional notes and payment information</p>
+
+                </div>
+                <div class="col-xl-3">
+                  <ul class="list-unstyled">
+                    <li class="text-muted ms-3"><span class="text-black me-4">SubTotal</span>${{total}}</li>
+                    <li class="text-muted ms-3 mt-2"><span class="text-black me-4">Shipping</span>$20</li>
+                  </ul>
+                  {% set res = total + 20 %}
+                  <p class="text-black float-start"><span class="text-black me-3"> Total Amount</span><span
+                      style="font-size: 25px;">${{res}}</span></p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-xl-10">
+                  <p>Thank you for your purchase</p>
+                </div>
+                <!-- <div class="col-xl-2">
+                  <button type="button" class="btn btn-primary text-capitalize"
+                    style="background-color:#60bdf3 ;">Pay Now</button>
+                </div> -->
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+       <script>
+              function printpage() {
+        //Get the print button and put it into a variable
+        var printButton = document.getElementById("printpagebutton");
+        //Set the print button visibility to 'hidden'
+        printButton.style.visibility = 'hidden';
+        //Print the page content
+        window.print()
+        printButton.style.visibility = 'visible';
+    }
+        </script>
+</body>
+</html>
+

@@ -1,0 +1,94 @@
+{% extends 'admin_header.html' %}
+{% block head %}
+<style>
+  .image img{
+    width: 100px;
+    height :80px;
+  }
+  i{
+    font-size: 2rem;
+  }
+  .btn{
+    color: #FF0032;
+  }
+  .btn:hover{
+    color:#CD0404;
+  }
+  i:hover{
+    color: #CD0404;
+  }
+  .main-container{
+    /* color: white; */
+    background-color: white;
+  }
+
+</style>
+{% endblock %}
+{% block body %}
+
+<div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
+
+  <div class="bg-gray-800 pt-3">
+      <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+          <h3 class="font-bold pl-2">Seller details</h3>
+      </div>
+  </div>
+
+  <div class="container mt-3 main-container">
+    
+ 
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Shop Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Detail</th>
+        <th>Image file</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for x  in data: %}
+      <tr>
+
+        <td>{{x.id}}</td>
+        <td>{{x.name}}</td>
+        <td>{{x.shop}}</td>
+        <td>{{x.phone}}</td>
+        <td>{{x.email}}</td>
+        <td>{{x.details}}</td>
+        {% set a = x.img_file %}
+
+        {% set b= encode(a) %}
+
+        {% set img = b.decode('UTF-8') %}
+        <td class="image">
+          <img src="data:image/png;charset-utf;base64,{{img}} ">
+        </td>
+        <td>
+          <form action="/remove_verifier" method="POST">
+               <input type="hidden" name="id" value="{{x.id}}">
+            <Button class="btn"><i class="fa-solid fa-trash"></i>
+               
+            </Button>
+
+          </form>
+        </td>
+      </tr>
+
+    {% endfor %}
+
+    </tbody>
+  </table>
+  </form>
+</div>
+</div>
+
+
+
+
+{% endblock %}
+

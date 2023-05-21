@@ -1,0 +1,85 @@
+{% extends 'admin_header.html' %}
+{% block head %}
+<style>
+  .image img{
+    width: 100px;
+    height :80px;
+  }
+  i{
+    font-size: 2rem;
+  }
+  .b2 i:hover{
+    font-size:3rem;
+    color:red;
+  }
+  .b1 i:hover{
+    font-size:3rem;
+    color:green;
+  }
+
+</style>
+{% endblock %}
+{% block body %}
+
+<div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
+
+  <div class="bg-gray-800 pt-3">
+      <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+          <h3 class="font-bold pl-2">All Products</h3>
+      </div>
+  </div>
+  <div class="container-fluid mt-3">
+    
+ 
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <!-- <th>ID</th> -->
+        <th>Fish Name</th>
+        <th>Price</th>
+        <th>fish</th>
+        <th>perishable</th>
+        <th>Detail</th>
+        <th>Shop Name</th>
+        <th>Shop Owner</th>
+        <th>Shop Email</th>
+        <th>Shop Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for fish,seller in data: %}
+      <tr>
+
+        <td>{{fish.name}}</td>
+        <td>{{fish.price}}</td>
+        
+
+        {% set a = fish.image %}
+
+        {% set b= encode(a) %}
+
+        {% set img = b.decode('UTF-8') %}
+        <td class="image">
+          <img src="data:image/png;charset-utf;base64,{{img}} ">
+        </td>
+        <td>{{fish.perishable}}</td>
+        <td>{{fish.detail}}</td>
+        <td>{{seller.shop}}</td>
+        <td>{{seller.name}}</td>
+        <td>{{seller.email}}</td>
+        <td>{{seller.details}}</td>
+      </tr>
+
+    {% endfor %}
+
+    </tbody>
+  </table>
+  </form>
+</div>
+</div>
+
+
+
+
+{% endblock %}
+

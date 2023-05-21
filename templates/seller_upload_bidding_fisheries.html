@@ -1,0 +1,289 @@
+{% extends 'seller_header.html' %}
+{% block head %}
+
+<style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins',sans-serif;
+}
+
+.title button{
+  margin-right: 35px;
+  margin-left: 50px;
+}
+
+.container{
+  margin-top:3%;
+  max-width: 700px;
+  width: 100%;
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+.container .title{
+  font-size: 25px;
+  font-weight: 500;
+  position: relative;
+}
+.container .title::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 30px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
+.content form .user-details{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0 12px 0;
+}
+form .user-details .input-box,#names{
+  margin-bottom: 15px;
+  width: calc(100% / 2 - 20px);
+}
+form .input-box span.details{
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+.user-details .input-box input,#names{
+  height: 45px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+.user-details .input-box input:focus,
+.user-details .input-box input:valid{
+  border-color: #9b59b6;
+}
+ form .gender-details .gender-title{
+  font-size: 20px;
+  font-weight: 500;
+ }
+ form .button{
+   height: 45px;
+   margin: 20px 0 2px
+ }
+ form .button input{
+   height: 100%;
+   width: 100%;
+   border-radius: 5px;
+   border: none;
+   color: #fff;
+   font-size: 18px;
+   font-weight: 500;
+   letter-spacing: 1px;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   background: linear-gradient(135deg, #71b7e6, #9b59b6);
+ }
+ form .button input:hover{
+  /* transform: scale(0.99); */
+  background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+  }
+ @media(max-width: 584px){
+ .container{
+  max-width: 100%;
+}
+form .user-details .input-box{
+    margin-bottom: 15px;
+    width: 100%;
+  }
+  form .category{
+    width: 100%;
+  }
+  .content form .user-details{
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+  .user-details::-webkit-scrollbar{
+    width: 5px;
+  }
+  }
+  @media(max-width: 459px){
+  .container .content .category{
+    flex-direction: column;
+  }
+}
+hr{
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
+.flash{
+margin:auto;
+width:25%;
+margin-top:15px;
+text-align:center;
+
+}
+.flash-container{
+    color: white;
+    background-color:blue;
+}
+
+.textarea{
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+}
+
+.textarea:hover{
+    border: 1px solid #9b59b6;
+}
+.profile i{
+		font-size:2.5rem;
+		color:white;
+
+	}
+.profile p{
+    font-size:2rem;
+    position:relative;
+    bottom:22px;
+}
+.title h1{
+    color:black;
+}
+
+.container{
+    margin-top:0;
+    padding-top:o;
+}
+.head{
+    padding:bottom:0;
+}
+.buton{
+    margin-left:42%;
+    text-align:center;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id="main">
+
+		<div class="head">
+			<div class="col-div-6">
+				<span style="font-size:30px;cursor:pointer; color: white;" class="nav"  >☰ Upload Fisheries</span>
+				<span style="font-size:30px;cursor:pointer; color: white;" class="nav2"  >☰ Upload Fisheries</span>
+			</div>
+
+			<div class="col-div-6">
+				<div class="profile">
+
+<!--					<img src="images/user.png" class="pro-img" />-->
+					<i class="fa-solid fa-user pro-img"></i>
+					<p>{{seller.name}} <span>{{seller.email}}</span></p>
+				</div>
+			</div>
+				<div class="clearfix"></div>
+		</div>
+    <div class="flash">
+        {% with message = get_flashed_messages(with_categories=true) %}
+      {% if message%}
+        {% for categories,mesage in message %}
+          <div class="alert flash-container">{{mesage}} {{g.data}}</div>
+        {% endfor %}
+      {% endif %}
+
+    {% endwith %}
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="title">
+            <h1>Upload Bidding Fisheries</h1>
+       </div>
+          <div class="content">
+          <form action="/seller/bidding_fishery" method="POST" enctype="multipart/form-data">
+            <div class="user-details">
+              <div class="input-box">
+                <!-- <span class="details">Name</span>
+                <input type="text" placeholder="Name of the product" name="name" required > -->
+                <span class="details">Fish Name</span>
+                  <select id="names" name="names" required>
+                    <option value="" selected disabled>Select a fish</option>
+                    <option value="Tuna">Tuna</option>
+                    <option value="Salmon">Salmon</option>
+                    <option value="Parai">Parai (False Trevally)</option>
+                    <option value="Red Snapper">Red Snapper (Sankara)</option>
+                    <option value="Nangu">Nangu (Queen Fish)</option>
+                    <option value="Rohu">Rohu</option>
+                    <option value="Pearl Spot">Pearl Spot</option>
+                    <option value="Nethili">Nethili (Anchovy)</option>
+                    <option value="Ayira Meen">Ayira Meen (Indian Mackerel) </option>
+                    <option value="Seer Fish">Seer Fish </option>
+                    <option value="Vanjaram">Vanjaram  (King Fish)</option>
+                    <option value="Sardine">Sardine</option>
+                    <option value="King Prawn">King Prawn</option>
+                    <option value="Squid">Squid</option>
+                    <option value="Indian Mackerel">Indian Mackerel</option>
+                    <option value="Barracuda">Barracuda</option>
+
+
+                  </select>
+              </div>
+              <div class="input-box">
+                <span class="details">Minimum Price</span>
+                <input type="number" placeholder="Enter the price" name="price" required >
+              </div>
+              <div class="input-box">
+                <span class="details">Starting Time</span>
+                <input type="time" placeholder="Enter the starting time" name="stime" required >
+              </div>
+              <div class="input-box">
+                <span class="details">today </span>
+                <input type="text" name="date" value="{{today_date}}" disabled required>
+              </div>
+              <div class="input-box">
+                <span class="details">Weight </span>
+                <input type="text" name="weight"  placeholder="weight of the fish" required>
+              </div>
+              <div class="input-box">
+                <span class="details">Upload image 1</span>
+                <input  type="file"  name="file1" required class="pt-1" >
+              </div>
+                <div class="input-box">
+                <span class="details">Upload image 2</span>
+                <input type="file"  name="file2" required class="pt-1" >
+              </div>
+                <div class="input-box">
+                <span class="details">Upload image 3</span>
+                <input type="file"  name="file3" required class="pt-1" >
+              </div>
+
+
+            </div>
+
+
+            <button class="btn btn-lg btn-danger buton">
+
+              Register
+            </button>
+          </form>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script>
+          $(document).ready(function(){
+              $('.alert').hide(4000);
+          });
+        </script>
+
+{% endblock %}
+

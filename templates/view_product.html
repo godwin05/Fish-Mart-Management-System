@@ -1,0 +1,121 @@
+{% extends 'seller_header.html' %}
+{% block head %}
+<style>
+  .image img{
+    width: 100px;
+    height :80px;
+  }
+  i{
+    font-size: 2rem;
+  }
+  .btn1{
+    color: #FF0032;
+  }
+  .btn1:hover{
+    color:#CD0404;
+  }
+  button i:hover{
+    color:#820d08;
+  }
+.profile i{
+		font-size:2.5rem;
+		color:white;
+
+	}
+	.profile p{
+		font-size:2rem;
+		position:relative;
+		bottom:22px;
+	}
+
+
+</style>
+{% endblock %}
+{% block body %}
+ <div id="main">
+
+		<div class="head">
+			<div class="col-div-6">
+				<span style="font-size:30px;cursor:pointer; color: white;" class="nav"  >☰ View Products</span>
+				<span style="font-size:30px;cursor:pointer; color: white;" class="nav2"  >☰ View Products</span>
+			</div>
+			<div class="col-div-6">
+				<div class="profile">
+<!--					<img src="images/user.png" class="pro-img" />-->
+					<i class="fa-solid fa-user pro-img"></i>
+					<p>{{seller.name}} <span>{{seller.email}}</span></p>
+				</div>
+			</div>
+				<div class="clearfix"></div>
+		</div>
+
+  <div class="container mt-3">
+    <h1>View product </h1>
+    <hr>
+ 
+  <table class="table table-striped">
+    <thead>
+      <tr>
+<!--        <th>id</th>-->
+        <th>Name</th>
+        <th>Price</th>
+        <th>Offer</th>
+        <th>Catch_date</th>
+        <th>perishable</th>
+        <th>Detail</th>
+        <th>Image</th>
+        <th>Update</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for x  in data: %}
+      <tr>
+
+<!--        <td>{{x.id}}</td>-->
+        <td>{{x.name}}</td>
+        <td>{{x.price}} Only/-</td>
+        <td>{{x.offer}} %</td>
+        <td>{{x.catch}}</td>
+        <td>{{x.perishable}} hours</td>
+        <td>{{x.detail}}</td>
+        {% set a = x.image %}
+
+        {% set b= encode(a) %}
+
+        {% set img = b.decode('UTF-8') %}
+        <td class="image">
+          <img src="data:image/png;charset-utf;base64,{{img}} ">
+        </td>
+        <td>
+          <form action="/seller/view_fisheries/update" method="POST">
+               <input type="hidden" name="update" value="{{x.id}}">
+            <Button class="btn btn-primary btn-sm ms-3">Update
+               
+            </Button>
+
+          </form>
+        </td>
+        <td>
+            <form action="/seller/view_fisheries/delete" method="POST">
+                 <input type="hidden" name="remove" value="{{x.id}}">
+              <Button class="btn1 btn"><i class="fa-solid fa-trash"></i>
+              </Button>
+  
+            </form>
+          </td>
+      </tr>
+
+    {% endfor %}
+
+    </tbody>
+  </table>
+
+</div>
+ </div>
+
+
+
+
+{% endblock %}
+

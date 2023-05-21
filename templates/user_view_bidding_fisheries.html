@@ -1,0 +1,210 @@
+{% extends 'main_header.html' %}
+{% block head %}
+
+<style>
+    article {
+  --img-scale: 1.001;
+  --title-color: black;
+  --link-icon-translate: -20px;
+  --link-icon-opacity: 0;
+  position: relative;
+  border-radius: 16px;
+  box-shadow: none;
+  background: #fff;
+  transform-origin: center;
+  transition: all 0.4s ease-in-out;
+  overflow: hidden;
+  font-family: "Figtree", sans-serif;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  margin-top: 50px;
+  background-color: #F6F1F1;
+
+}
+
+article a::after {
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0;
+  cursor: pointer;
+  content: "";
+}
+
+/* basic article elements styling */
+article h2 {
+  margin: 0 0 18px 0;
+  font-family: "Bebas Neue", cursive;
+  font-size: 1.9rem;
+  letter-spacing: 0.06em;
+  color: var(--title-color);
+  transition: color 0.3s ease-out;
+<!--  color:white;-->
+}
+
+figure {
+  margin: 0;
+  padding: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+article img {
+  max-width: 100%;
+  transform-origin: center;
+  transform: scale(var(--img-scale));
+  transition: transform 0.4s ease-in-out;
+}
+
+.article-body {
+  padding: 24px;
+}
+
+article a {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: #28666e;
+}
+
+article a:focus {
+  outline: 1px dotted #28666e;
+}
+
+article a .icon {
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+  margin-left: 5px;
+  transform: translateX(var(--link-icon-translate));
+  opacity: var(--link-icon-opacity);
+  transition: all 0.3s;
+}
+
+/* using the has() relational pseudo selector to update our custom properties */
+article:has(:hover, :focus) {
+  --img-scale: 1.1;
+  --title-color: #28666e;
+  --link-icon-translate: 0;
+  --link-icon-opacity: 1;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+
+/************************
+Generic layout (demo looks)
+**************************/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+<!--body {-->
+<!--  font-family: "Figtree", sans-serif;-->
+<!--  font-size: 1.2rem;-->
+<!--  line-height: 1.6rem;-->
+<!--}-->
+
+.articles {
+  display: grid;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 24px;
+
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+@media screen and (max-width: 960px) {
+  article {
+    container: card/inline-size;
+  }
+  .article-body p {
+    display: none;
+  }
+}
+
+@container card (min-width: 380px) {
+  .article-wrapper {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 16px;
+  }
+  .article-body {
+    padding-left: 0;
+  }
+  figure {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  figure img {
+    height: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+}
+
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+.cf{
+    width: 100%;
+    height : 100%;
+}
+.h1{
+    color:grey;
+    font-size:3rem;
+    text-align:center;
+    position:absolute;
+    top:50%;
+    left:30%;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div class="container-fluid cf">
+    <section class="articles">
+        {% for bid,seller in data: %}
+            <article>
+              <div class="article-wrapper">
+                <figure>
+                    {% set a = bid.image1 %}
+                    {% set b= encode(a) %}
+                    {% set img = b.decode('UTF-8') %}
+                  <!-- <img src="https://picsum.photos/id/1011/800/450" alt="" /> -->
+    <!--              <img src="Screenshot (16).png" alt="">-->
+                    <img src="data:image/png;charset-utf;base64,{{img}} ">
+                </figure>
+                <div class="article-body">
+                  <h2>Fish : {{bid.name}}</h2>
+                  <p><i class="fa-solid fa-scale-unbalanced-flip"></i> Weight :<b> {{bid.bid}} kg</b> </p>
+                  <p><i class="fa-solid fa-cart-shopping"></i> Shop name : <b>{{seller.shop}}</b></p>
+                  <p><i class="fa-regular fa-clock"></i> Bidding time <b>{{bid.time}} am</b></p>
+                    <form action="/bidding/enter_bidding" method="post">
+                        <input type="hidden" value="{{seller.id}}" name="seller">
+                        <input type="hidden" value="{{bid.id}}" name="bid">
+                        <button class="read-more btn  btn-danger">
+                            details
+                        </button>
+                    </form>
+                </div>
+              </div>
+            </article>
+
+        {% endfor %}
+        {% if length ==0: %}
+            <h1 class="h1">Currently no bidding available</h1>
+        {% endif %}
+    </section>
+</div>
+<script src="{{url_for('static', filename='js/nav.js') }}"></script>
+{% endblock %}

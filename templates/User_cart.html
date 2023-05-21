@@ -1,0 +1,230 @@
+{% extends 'main_header.html' %}
+{% block head %}
+<style>
+
+.container-fluid{
+    padding:0;
+}
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #6a11cb;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+}
+.price-6{
+    text-decoration: line-through;
+}
+.total-price{
+  position:fixed;
+  right:0;
+  right:0;
+}
+.main-cart{
+  position:relative;
+  right:16%;
+}
+.a{
+  position: relative;
+  top: 15px;
+  left : 30%;
+  z-index:1;
+}
+</style>
+{% endblock %}
+{% block body %}
+<section class="h-100 gradient-custom bar">
+        <div class="container py-5 main-cart bar">
+          <div class="row d-flex justify-content-center my-4 bar">
+            <div class="col-md-8">
+              <div class="card mb-4">
+                <div class="card-header py-3">
+                  <h5 class="mb-0">Cart - {{total_length}} items</h5>
+                </div>
+                <div class="card-body">
+                  <!-- Single item -->
+                  {% for data in list1: %}
+                  <div class="row">
+
+
+                    <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                      <!-- Image -->
+                      <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                            {% set a = data.image %}
+                            {% set b= encode(a) %}
+                            {% set img = b.decode('UTF-8') %}
+<!--								<img src= alt="194x228" class="img-responsive">-->
+                              <img src="data:image/png;charset-utf;base64,{{img}} " class="img-responsive w-100" alt="image">
+<!--                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/12a.webp"-->
+<!--                          class="w-100" alt="image" />-->
+                        <a href="#!">
+                          <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                        </a>
+                      </div>
+                      <!-- Image -->
+                    </div>
+
+                    <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                      <!-- Data -->
+                      <p><strong>{{data.name}}</strong></p>
+
+<!--                      <p>Size: M</p>-->
+                      {% if data.perishable == 0 :%}
+						  <p>perishable : More than 1 year</p>
+						{% else %}
+                          <p>perishable : {{data.perishable}} hrs</p>
+
+						{% endif %}
+                      <div class="row  mt-5">
+                        <div class="col-4">
+                          <form action="/user_cart/remove" method="POST">
+                        <input type="hidden" name="remove" value="{{data.id}}">
+                          <button class="btn btn-danger btn me-1 mb-2"
+                          title="Remove item">
+                          remove
+                        </button>
+<!--                        <button class="btn btn-primary btn-sm me-1 mb-2" title="Remove item">remove</button>-->
+                      </form>
+                        </div>
+                        <div class="col-4">
+                          <form action="/product_detail/shop" method="POST">
+                        <input type="hidden" name="product_id" value="{{data.id}}">
+                          <button class="btn btn-primary btn me-1 mb-2"  title="Shop Now">
+                          Shopnow
+                        </button>
+<!--                        <button class="btn btn-primary btn-sm me-1 mb-2" title="Remove item">remove</button>-->
+                      </form>
+                        </div>
+                      </div>
+
+
+<!--                      <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"-->
+<!--                        title="Move to the wish list">-->
+<!--                        <i class="fas fa-heart"></i>-->
+<!--                      </button>-->
+                      <!-- Data -->
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                      <!-- Quantity -->
+                      <div class="d-flex mb-4" style="max-width: 300px">
+                        <button class="btn btn-primary px-3 me-2"
+                          onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                          <i class="fas fa-minus"></i>
+                        </button>
+
+                        <div class="form-outline">
+                          <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control" />
+                          <label class="form-label" for="form1">Quantity</label>
+                        </div>
+
+                        <button class="btn btn-primary px-3 ms-2"
+                          onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                      <!-- Quantity -->
+
+                      <!-- Price -->
+
+                      {% set var = data.price/100 %}
+                      {% set val = 100-data.offer %}
+                      {% set ans = var*val %}
+                      <p class="text-start text-md-center">
+                       <h2> <strong> Just ₹ {{ans|round|int}}</strong> </h2>
+                      </p>
+                      <!-- Price -->
+                      <p class="price-6">
+                       ${{data.price}}
+                      </p>
+                    </div>
+
+                  </div>
+                    <hr class="my-4" />
+                  {% endfor %}
+                  <!-- Single item -->
+    <!-- the end   -->
+
+                </div>
+              </div>
+              <div class="card mb-4">
+                <div class="card-body row">
+                  <div class="col">
+                    <p><strong>Expected shipping delivery</strong></p>
+                    <p class="mb-0">Morning 10 am to 5 pm</p>
+                  </div>
+
+<!--                  <div class="a col">-->
+<!--                      <a href="/user_cart/feedback" class="btn btn-danger btn-lg">Feedback</a>-->
+<!--                  </div>-->
+
+                </div>
+              </div>
+              <div class="card mb-4 mb-lg-0">
+                <div class="card-body">
+                  <p><strong>We accept</strong></p>
+                  <img class="me-2" width="45px"
+                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+                    alt="Visa" />
+                  <img class="me-2" width="45px"
+                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+                    alt="American Express" />
+                  <img class="me-2" width="45px"
+                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+                    alt="Mastercard" />
+<!--                  <img class="me-2" width="45px"-->
+<!--                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"-->
+<!--                    alt="PayPal acceptance mark" />-->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 total-price">
+              <div class="card mb-4">
+                <div class="card-header py-3">
+                  <h5 class="mb-0">Summary</h5>
+                </div>
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                      Fisheries
+                      <span>{{total}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                      Shipping
+                      <span>${{delivery_charge}}</span>
+                    </li>
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                      <div>
+                        <strong>Total amount</strong>
+                        <strong>
+                          <p class="mb-0">(including Taxes)</p>
+                        </strong>
+                      </div>
+                      {% set add = total + delivery_charge%}
+                      <span><strong>${{add}}</strong></span>
+                    </li>
+                  </ul>
+                <form method="post" action="/user_cart/go_to_shop">
+                  {% if total_length == 0 :%}
+                    <Button class="btn btn-primary btn-lg btn-block" disabled>
+                      Go to checkout
+                    </Button>
+                  {% else: %}
+                  <Button class="btn btn-primary btn-lg btn-block">
+                      Go to checkout
+                    </Button>
+                  {% endif %}
+                </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+<script src="{{url_for('static', filename='js/nav.js') }}"></script>
+{% endblock%}

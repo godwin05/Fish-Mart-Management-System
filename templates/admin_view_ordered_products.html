@@ -1,0 +1,83 @@
+{% extends 'admin_header.html' %}
+{% block head %}
+<style>
+  .image img{
+    width: 100px;
+    height :80px;
+  }
+  i{
+    font-size: 2rem;
+  }
+  .btn{
+    color: #FF0032;
+  }
+  .btn:hover{
+    color:#CD0404;
+  }
+
+
+</style>
+{% endblock %}
+{% block body %}
+
+<div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
+
+  <div class="bg-gray-800 pt-3">
+      <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+          <h3 class="font-bold pl-2">All Ordered products </h3>
+      </div>
+  </div>
+
+  <div class="container mt-3">
+    
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Fish name</th>
+        <th>Fish price</th>
+        <th>Offer</th>
+        <th>Fish image</th>
+        <th>Buyer name</th>
+        <th>Address</th>
+        <th>Email</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for fish,user  in data: %}
+      <tr>
+
+        <td>{{fish.name}}</td>
+        <td>{{fish.price}}</td>
+        <td>{{fish.offer}}</td>
+
+        {% set a = fish.image %}
+
+        {% set b= encode(a) %}
+
+        {% set img = b.decode('UTF-8') %}
+        <td class="image">
+          <img src="data:image/png;charset-utf;base64,{{img}} ">
+        </td>
+        <td>{{user.name}}</td>
+        <td>{{user.Address}}</td>
+        <td>{{user.email}}</td>
+
+        <td>
+          {{fish.date_joined}}
+        </td>
+      </tr>
+
+    {% endfor %}
+
+    </tbody>
+  </table>
+  </form>
+</div>
+
+</div>
+
+
+{% endblock %}
+

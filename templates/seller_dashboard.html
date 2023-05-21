@@ -1,0 +1,126 @@
+{% extends 'seller_header.html' %}
+{% block head %}
+<style>
+	.profile i{
+		font-size:2.5rem;
+		color:white;
+
+	}
+	.profile p{
+		font-size:2rem;
+		position:relative;
+		bottom:22px;
+	}
+</style>
+{% endblock %}
+{% block body %}
+	<div id="main">
+<!--		default-->
+		<div class="head">
+			<div class="col-div-6">
+				<span style="font-size:30px;cursor:pointer; color: white;" class="nav"  >☰ Dashboard</span>
+				<span style="font-size:30px;cursor:pointer; color: white;" class="nav2"  >☰ Dashboard</span>
+			</div>
+
+			<div class="col-div-6">
+				<div class="profile">
+
+<!--					<img src="images/user.png" class="pro-img" />-->
+					<i class="fa-solid fa-user pro-img"></i>
+					<p>{{seller.name}} <span>{{seller.email}}</span></p>
+				</div>
+			</div>
+				<div class="clearfix"></div>
+		</div>
+
+<!--		/default-->
+
+				<div class="clearfix"></div>
+				<br/>
+
+				<div class="col-div-3">
+					<div class="box">
+						<p>{{customers}}<br/><span>Customers</span></p>
+						<i class="fa fa-users box-icon"></i>
+					</div>
+				</div>
+				<div class="col-div-3">
+					<a href="seller/view_fisheries">
+					<div class="box">
+						<p>{{products}}<br/><span>Products</span></p>
+						<i class="fa fa-list box-icon"></i>
+					</div>
+					</a>
+				</div>
+				<div class="col-div-3">
+					<a href="/seller/view_orders">
+						<div class="box">
+							<p>{{orders}}<br/><span>Orders</span></p>
+							<i class="fa fa-shopping-bag box-icon"></i>
+						</div>
+					</a>
+				</div>
+				<div class="col-div-3">
+					<div class="box">
+						<p>{{revenue}}<br/><span>Revenue</span></p>
+						<i class="fa fa-tasks box-icon"></i>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				<br/><br/>
+				<div class="col-div-8">
+					<div class="box-8">
+					<div class="content-box">
+						<p>Recent Selling Fisheries <a href="/seller/view_orders"> <span>Sell All</span></a></p>
+						<br/>
+						<table>
+			<tr>
+				<th>Product Name</th>
+				<th>Price</th>
+				<th>Buyer Name</th>
+<!--				<th>Buyer email</th>-->
+				<th>Buyer PhoneNumber</th>
+				<th>Buyer address</th>
+				<th>Date of purchased</th>
+			</tr>
+			{% for user,fish,date in data: %}
+			<tr>
+				<td>{{fish.name}}</td>
+				<td>{{fish.price}}</td>
+				<td>{{user.name}}</td>
+<!--				<td>{{user.email}}</td>-->
+				<td>{{date.phone}}</td>
+				<td>{{date.details}}</td>
+				<td>{{date.date_joined}}</td>
+			</tr>
+			{% endfor %}
+
+
+			</table>
+					</div>
+				</div>
+				</div>
+
+				<div class="col-div-4">
+					<div class="box-4">
+					<div class="content-box">
+						<p>Today Sale </p>
+
+						<div class="circle-wrap">
+				<div class="circle">
+				<div class="mask full">
+					<div class="fill"></div>
+				</div>
+				<div class="mask half">
+					<div class="fill"></div>
+				</div>
+				<div class="inside-circle"> {{today_order}} </div>
+				</div>
+			</div>
+					</div>
+				</div>
+				</div>
+
+				<div class="clearfix"></div>
+	</div>
+{% endblock %}
